@@ -1,0 +1,32 @@
+{
+  "app": {
+    "main": {
+      "title": "POLOCATOR"
+    },
+    "login": {
+      "button": "Sign in with Google",
+      "failed": "Failed to log in",
+      "success": "Welcome to POLOCATOR!",
+      "allowNotifications": "Please allow notifications when asked",
+      "notificationsNotGranted": "Cannot start POLOCATOR, notifications are not approved"
+    },
+    "home": {
+      "title": "POLOCATOR: Main",
+      "logout": "Log out",
+      "refresh": "Refresh",
+      "addConnection": "Add connection",
+      "locate": "LOCATE",
+      "block": "BLOCK",
+      "allow": "ALLOW",
+      "themeModeSwitchLight": "Switch theme to light",
+      "themeModeSwitchDark": "Switch theme to dark"
+    },
+    "addConnnection": {
+      "title": "POLOCATOR: Add Connection",
+      "failed": "Add connection operation failed"
+    },
+    "locate": {
+      "title": "POLOCATOR: Locate"
+    }
+  }
+}

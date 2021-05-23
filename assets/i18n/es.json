@@ -1,0 +1,32 @@
+{
+  "app": {
+    "main": {
+      "title": "POLOCATOR"
+    },
+    "login": {
+      "button": "Acceso con Google",
+      "failed": "El acceso ha fallado",
+      "success": "Bienvenido a POLOCATOR!",
+      "allowNotif": "Por favor, autorice las notificaciones cuando se pregunte",
+      "notifNotGranted": "No se puede iniciar POLOCATOR, las notificaciones no están autorizadas"
+    },
+    "home": {
+      "title": "POLOCATOR: Inicio",
+      "logout": "Cerrar sesión",
+      "refresh": "Refrescar",
+      "addConnection": "Añadir conexión",
+      "locate": "LOCALIZAR",
+      "block": "BLOQUEAR",
+      "allow": "AUTORIZAR",
+      "themeModeSwitchLight": "Cambiar a tema claro",
+      "themeModeSwitchDark": "Cambiar a tema oscuro"
+    },
+    "addConnection": {
+      "title": "POLOCATOR: Añadir Conexión",
+      "failed": "La operación de añadir conexión ha fallado"
+    },
+    "locate": {
+      "title": "POLOCATOR: Localizar"
+    }
+  }
+}
