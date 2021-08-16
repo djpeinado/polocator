@@ -19,3 +19,5 @@ package-lock.json
 polocator.code-workspace
 pubspec.lock
 web/config-private.js
+node_modules/
+firebase/.runtimeconfig.json
