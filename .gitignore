@@ -5,9 +5,6 @@
 .idea
 .packages
 build
-android
-ios
-macos
 commands.sh
 contacts.json
 firebase/functions/package-lock.json
@@ -21,3 +18,4 @@ pubspec.lock
 web/config-private.js
 node_modules/
 firebase/.runtimeconfig.json
+android/app/google-services.json
