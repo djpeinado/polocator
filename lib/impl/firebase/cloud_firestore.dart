@@ -21,7 +21,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../interfaces.dart';
 import '../../misc/utils.dart';
 import '../../model/data.dart';
-import 'core.dart';
 
 class FirebaseCloudStore implements IStorageCloud {
   FirebaseCloudStore._();
@@ -32,7 +31,6 @@ class FirebaseCloudStore implements IStorageCloud {
 
   @override
   Future<bool> addUser(User user, List<int>? keySecure) async {
-    FirebaseCore.instance.init();
     try {
       await _users.doc(user.id).set({
         User.keyUid: user.uid,
@@ -51,7 +49,6 @@ class FirebaseCloudStore implements IStorageCloud {
 
   @override
   Future<bool> existsUser(String? userId) async {
-    FirebaseCore.instance.init();
     // Check is already sign up
     try {
       final DocumentSnapshot doc = await _users.doc(userId).get();
@@ -64,7 +61,6 @@ class FirebaseCloudStore implements IStorageCloud {
 
   @override
   Future<bool> updateUser(String? userId, Map<String, dynamic> data) async {
-    FirebaseCore.instance.init();
     try {
       await _users.doc(userId).set(data, SetOptions(merge: true));
       return true;
@@ -75,7 +71,6 @@ class FirebaseCloudStore implements IStorageCloud {
   }
 
   Future<dynamic> getUserValue(String userId, String key) async {
-    FirebaseCore.instance.init();
     try {
       final DocumentSnapshot doc = await _users.doc(userId).get();
       if (doc.exists) {
@@ -89,7 +84,8 @@ class FirebaseCloudStore implements IStorageCloud {
 
   @override
   Future<List<int>> getUserKeySecure(String userId) async {
-    return await getUserValue(userId, User.keyKeySecure);
+    dynamic value = await getUserValue(userId, User.keyKeySecure);
+    return value != null ? List<int>.from(value) : List.empty();
   }
 
   @override
@@ -108,7 +104,6 @@ class FirebaseCloudStore implements IStorageCloud {
     final HashMap<String, ConnectionStatus?> connections =
         new HashMap<String, ConnectionStatus?>();
 
-    FirebaseCore.instance.init();
     try {
       final CollectionReference collection =
           getUserCollectionConnections(userId);
@@ -131,7 +126,6 @@ class FirebaseCloudStore implements IStorageCloud {
   @override
   Future<bool> setConnection(
       String userId, String email, ConnectionStatus status) async {
-    FirebaseCore.instance.init();
     try {
       final CollectionReference collection =
           getUserCollectionConnections(userId);

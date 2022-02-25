@@ -14,7 +14,7 @@
 ///
 /// You should have received a copy of the GNU General Public License
 /// along with polocator.  If not, see <http://www.gnu.org/licenses/>.
-import '../E2EE/e2ee.dart' as e2ee;
+import '../e2ee/e2ee.dart' as e2ee;
 import '../factory.dart';
 import 'data.dart';
 import 'model.dart';
@@ -27,9 +27,10 @@ class Storage {
   Future<bool> storeUser(User user) async {
     if (user.id != null) {
       _userIdCurrent = user.id;
+      List<int> keySecure;
       if (!await implStorageCloud.existsUser(user.id)) {
-        if (!await implStorageCloud.addUser(
-            user, implStorageSecure.createSecureKey())) {
+        keySecure = implStorageSecure.createSecureKey();
+        if (!await implStorageCloud.addUser(user, keySecure)) {
           return false;
         }
       } else {
@@ -37,6 +38,13 @@ class Storage {
           User.keyDeviceId: user.deviceId,
           User.keyPushNotificationId: user.pushNotificationsId,
         };
+        keySecure = await implStorageCloud.getUserKeySecure(user.id!);
+        if (keySecure.isEmpty) {
+          keySecure = implStorageSecure.createSecureKey();
+          if (keySecure.isNotEmpty) {
+            userData[User.keyKeySecure] = keySecure;
+          }
+        }
         if (!await implStorageCloud.updateUser(user.id, userData)) {
           return false;
         }
@@ -46,7 +54,6 @@ class Storage {
       // Set user encription keys
       await implStorageLocal.write(
           User.keyEncryptionKeyPublic, pair.publicKey.toBase64());
-      List<int>? keySecure = await implStorageCloud.getUserKeySecure(user.id!);
       await implStorageSecure.init(keySecure);
       await implStorageSecure.write(
           User.keyEncryptionKeyPrivate, pair.secretKey.toBase64());

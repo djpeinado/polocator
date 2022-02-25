@@ -17,7 +17,7 @@
 import 'impl/device.dart';
 import 'impl/firebase/authentication.dart';
 import 'impl/firebase/cloud_firestore.dart';
-import 'impl/firebase/cloud_messaging_stub.dart'
+import 'impl/firebase/cloud_messaging.dart'
     if (dart.library.js) 'impl/firebase/cloud_messaging_web.dart';
 import 'impl/firebase/functions.dart';
 import 'impl/hive.dart';

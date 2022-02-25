@@ -15,18 +15,12 @@
 ///
 /// You should have received a copy of the GNU General Public License
 /// along with polocator.  If not, see <http://www.gnu.org/licenses/>.
-import 'dart:js' as js;
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase/firebase.dart' as firebase;
 
-import '../../misc/const.dart';
+import '../../interfaces.dart';
 import '../../misc/exceptions.dart';
 
-import 'cloud_messaging_base.dart';
-
-class FirebaseCloudMessaging extends FirebaseCloudMessagingBase {
-  static final FirebaseCloudMessaging instance = FirebaseCloudMessaging();
-
+class FirebaseCloudMessagingBase implements IPushNotifications {
   @override
   Future<String?> getId() async {
     // Ask for permission
@@ -38,25 +32,20 @@ class FirebaseCloudMessaging extends FirebaseCloudMessagingBase {
         throw new NotificationsNotGrantedException();
       default:
     }
+    return FirebaseMessaging.instance.getToken();
+  }
 
-    if (kIsWeb) {
-      try {
-        String? token = await FirebaseMessaging.instance.getToken(
-          vapidKey: js.context[JS.firebaseConfigProxy][JS.vApIdKey],
-        );
-        return token;
-      } on firebase.FirebaseError catch (e) {
-        print('FirebaseCloudMessaging - Error: ' + e.toString());
-        print('FirebaseException code: ' + e.code);
-        if (e.code == 'messaging/permission-blocked') {
-          throw new NotificationsNotGrantedException();
-        }
-        return null;
-      } catch (error) {
-        print('FirebaseCloudMessaging - Error: ' + error.toString());
-        return null;
-      }
-    }
-    return null;
+  @override
+  void setRefreshIdHandler(Function(String) f) {
+    FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+      f(token);
+    });
+  }
+
+  @override
+  void setMessageHandler(Future<void> Function(RemoteMessage) f) {
+    FirebaseMessaging.onMessage.listen(f);
+    FirebaseMessaging.onMessageOpenedApp.listen(f);
+    FirebaseMessaging.onBackgroundMessage(f);
   }
 }

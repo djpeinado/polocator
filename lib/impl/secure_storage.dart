@@ -38,9 +38,9 @@ class DeviceSecureStorage implements IStorageSecure {
   }
 
   @override
-  List<int>? createSecureKey() {
+  List<int> createSecureKey() {
     // Not needed
-    return null;
+    return List.empty();
   }
 
   @override

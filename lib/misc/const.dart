@@ -36,3 +36,21 @@ class JS {
   static const firebaseConfigProxy = 'firebaseConfigProxy';
   static const vApIdKey = 'vApIdKey';
 }
+
+class Functions {
+  static const keyOperation = 'op';
+  static const keyData = 'data';
+  static const opSendLocation = 'sendLocation';
+  static const opRequestLocation = 'requestLocation';
+  static const opResponseLocation = 'responseLocation';
+  static const opGetContacts = 'getContacts';
+}
+
+class Crypto {
+  static const CRC_SEPARATOR = '&';
+  static const IV_LENGTH = 8;
+}
+
+class Maps {
+  static const double ZOOM_DEFAULT = 14;
+}

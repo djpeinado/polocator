@@ -19,7 +19,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_translate/flutter_translate.dart';
 
+import 'controller/controller.dart';
 import 'i18n/i18n.dart';
+import 'impl/firebase/core.dart';
 import 'misc/const.dart';
 import 'model/model.dart';
 import 'ui/style.dart';
@@ -34,6 +36,7 @@ void main() async {
   var delegate = await LocalizationDelegate.create(
       fallbackLocale: Locale.fallback, supportedLocales: Locale.supported);
   await Model.init();
+  FirebaseCore.instance.init();
   runApp(LocalizedApp(delegate, App()));
 }
 
@@ -49,6 +52,7 @@ class _AppState extends State<App> {
     AppThemeMode.instance.addListener(() {
       setState(() {});
     });
+    Controller.init();
   }
 
   @override

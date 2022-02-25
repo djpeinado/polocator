@@ -11,7 +11,7 @@
       "notificationsNotGranted": "Cannot start POLOCATOR, notifications are not approved"
     },
     "home": {
-      "title": "POLOCATOR: Main",
+      "title": "Main",
       "logout": "Log out",
       "refresh": "Refresh",
       "addConnection": "Add connection",
@@ -22,11 +22,11 @@
       "themeModeSwitchDark": "Switch theme to dark"
     },
     "addConnnection": {
-      "title": "POLOCATOR: Add Connection",
+      "title": "Add Connection",
       "failed": "Add connection operation failed"
     },
     "locate": {
-      "title": "POLOCATOR: Locate"
+      "title": "Locate"
     }
   }
 }

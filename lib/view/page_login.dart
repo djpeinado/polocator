@@ -17,8 +17,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 import '../controller/controller.dart';
 import '../i18n/i18n.dart';
@@ -28,6 +26,7 @@ import '../model/data.dart';
 import '../model/model.dart';
 import '../ui/theme.dart';
 import 'page_home.dart';
+import 'widgets/flutter_auth_buttons/google.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = RouteName.pageLogin;
@@ -40,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   String _messageInfo = kIsWeb ? I18N.getString(I18N.keyLoginAllowNotif) : "";
 
   void _navigateToHome(BuildContext context) {
-    Utils.navigateTo(context, HomePage.routeName);
+    Utils.navigateTo(context, HomePage.routeName, removeUntil: true);
   }
 
   void _setLoading(bool value) {
@@ -61,17 +60,23 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    ReturnStatus status = await Controller.signIn(context, silent: silent);
-    if (status == ReturnStatus.OK) {
-      _navigateToHome(context);
-    } else {
-      String messageError = "";
-      if (status == ReturnStatus.NOTIF_NOT_GRANTED) {
-        messageError = I18N.getString(I18N.keyLoginNotifNotGranted);
-      }
+    if (await Controller.getLocation() == null) {
+      // TODO message error no location
+      Utils.toast(context, "FIXME NO LOCATION", hideCurrent: true);
       _setLoading(false);
-      if (messageError.isNotEmpty) {
-        Utils.toast(context, messageError, hideCurrent: true);
+    } else {
+      ReturnStatus status = await Controller.signIn(context, silent: silent);
+      if (status == ReturnStatus.OK) {
+        _navigateToHome(context);
+      } else {
+        String messageError = "";
+        if (status == ReturnStatus.NOTIF_NOT_GRANTED) {
+          messageError = I18N.getString(I18N.keyLoginNotifNotGranted);
+        }
+        _setLoading(false);
+        if (messageError.isNotEmpty) {
+          Utils.toast(context, messageError, hideCurrent: true);
+        }
       }
     }
   }
@@ -80,7 +85,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     if (!Controller.isSignInSilentlyDone() && Model.isTherePreviousUser()) {
-      _signIn(context, silent: true);
+      Future.delayed(Duration.zero, () {
+        _signIn(context, silent: true);
+      });
     } else {
       _setLoading(false);
     }
@@ -101,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: AppThemeMode.isDarkMode!
                       ? null
                       : Theme.of(context).colorScheme.primary,
-                  fontSize: 50.0,
+                  fontSize: 36.0,
                   fontWeight: FontWeight.w400,
                 ),
               ),

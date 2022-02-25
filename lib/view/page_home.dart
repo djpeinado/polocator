@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   void _signOut(BuildContext context) async {
     await Controller.signOut();
-    Utils.navigateTo(context, RouteName.pageLogin);
+    Utils.navigateTo(context, RouteName.pageLogin, removeUntil: true);
   }
 
   void _switchThemeMode() {

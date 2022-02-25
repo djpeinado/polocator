@@ -1,4 +1,4 @@
-const FIREBASE_JS_VERSION = "8.5.0"
+const FIREBASE_JS_VERSION = "8.7.1"
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: GOOGLE_API_KEY,

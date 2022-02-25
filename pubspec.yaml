@@ -18,41 +18,44 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 0.1.0-dev.1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cloud_firestore: ^2.2.0
-  cloud_functions: ^1.1.0
-  cupertino_icons: ^1.0.3
-  device_info: ^2.0.1
-  firebase: ^9.0.1
-  firebase_auth: ^1.2.0
-  firebase_core: ^1.2.0
-  firebase_messaging: ^10.0.0
-  flutter_auth_buttons: ^0.10.0
-  flutter_secure_storage: ^4.2.0
-  flutter_translate: ^3.0.1
-  google_maps_flutter: ^2.0.5
-  google_maps_flutter_web: ^0.3.0
-  google_sign_in: ^5.0.3
-  googleapis: ^3.0.0
-  hive: ^2.0.4
-  hive_flutter: ^1.0.0
-  js: ^0.6.3
-  uuid: ^3.0.4
+  cloud_firestore: ^2.5.1
+  cloud_functions: ^3.0.2
   collection: ^1.15.0
+  cupertino_icons: ^1.0.3
+  crypto: ^3.0.1
+  device_info: ^2.0.2
+  encrypt: ^5.0.1
+  firebase: ^9.0.1
+  firebase_auth: ^3.1.0
+  firebase_core: ^1.6.0
+  firebase_messaging: ^10.0.6
+  flutter_secure_storage: ^4.2.1
+  flutter_translate: ^3.0.1
+  google_maps_flutter: ^2.0.6
+  google_maps_flutter_web: ^0.3.0+4
+  google_sign_in: ^5.0.7
+  googleapis: ^4.0.0
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  intl: ^0.17.0
+  js: ^0.6.3
+  location: ^4.3.0
+  uuid: ^3.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.0.3
+  build_runner: ^2.1.1
   hive_generator: ^1.1.0
 
-dependency_overrides:
+dependency_overrides: null
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -69,6 +72,7 @@ flutter:
     #   - images/a_dot_ham.jpeg
     - assets/i18n/en.json
     - assets/i18n/es.json
+    - assets/graphics/google-logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

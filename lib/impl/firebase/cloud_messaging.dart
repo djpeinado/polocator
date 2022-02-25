@@ -1,3 +1,4 @@
+// ignore: avoid_web_libraries_in_flutter
 /// Copyright (C) 2021 Alberto Peinado Checa
 ///
 /// This file is part of polocator.
@@ -14,26 +15,8 @@
 ///
 /// You should have received a copy of the GNU General Public License
 /// along with polocator.  If not, see <http://www.gnu.org/licenses/>.
+import 'cloud_messaging_base.dart';
 
-import '../../interfaces.dart';
-
-class FirebaseCloudMessaging implements IPushNotifications {
+class FirebaseCloudMessaging extends FirebaseCloudMessagingBase {
   static final FirebaseCloudMessaging instance = FirebaseCloudMessaging();
-
-  @override
-  Future<String?> getId() async {
-    throw UnsupportedError('Unsupported method FirebaseCloudMessaging.getId()');
-  }
-
-  @override
-  void setRefreshIdHandler(Function(String) f) {
-    throw UnsupportedError(
-        'Unsupported method FirebaseCloudMessaging.setRefreshIdHandler()');
-  }
-
-  @override
-  void setMessageHandler(Function f) {
-    throw UnsupportedError(
-        'Unsupported method FirebaseCloudMessaging.setMessageHandler()');
-  }
 }

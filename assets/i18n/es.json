@@ -11,7 +11,7 @@
       "notifNotGranted": "No se puede iniciar POLOCATOR, las notificaciones no están autorizadas"
     },
     "home": {
-      "title": "POLOCATOR: Inicio",
+      "title": "Inicio",
       "logout": "Cerrar sesión",
       "refresh": "Refrescar",
       "addConnection": "Añadir conexión",
@@ -22,11 +22,11 @@
       "themeModeSwitchDark": "Cambiar a tema oscuro"
     },
     "addConnection": {
-      "title": "POLOCATOR: Añadir Conexión",
+      "title": "Añadir Conexión",
       "failed": "La operación de añadir conexión ha fallado"
     },
     "locate": {
-      "title": "POLOCATOR: Localizar"
+      "title": "Localizar"
     }
   }
 }

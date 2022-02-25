@@ -18,9 +18,14 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
+import '../e2ee/e2ee.dart' as e2ee;
+import '../misc/const.dart';
+import '../misc/crc.dart';
 import '../ui/style.dart';
 
 class Utils {
@@ -69,9 +74,14 @@ class Utils {
     ));
   }
 
-  static void navigateTo(context, String routeName, {String? param}) {
-    Navigator.pushNamedAndRemoveUntil(context, routeName, (_) => false,
-        arguments: param);
+  static void navigateTo(context, String routeName,
+      {bool removeUntil = false, String? param}) {
+    if (removeUntil) {
+      Navigator.pushNamedAndRemoveUntil(context, routeName, (_) => false,
+          arguments: param);
+    } else {
+      Navigator.pushNamed(context, routeName, arguments: param);
+    }
   }
 
   static bool isValidEmail(String value) {
@@ -87,5 +97,61 @@ class Utils {
 
   static String enumToString<T>(T value) {
     return value.toString().split(".").last;
+  }
+
+  static Future<encrypt.Encrypter> getEncryptor(
+      String keyPrivate, String keyPublic) async {
+    String sharedSecret = (await e2ee.X25519().calculateSharedSecret(
+            e2ee.Key.fromBase64(keyPrivate, false),
+            e2ee.Key.fromBase64(keyPublic, true)))
+        .toBase64();
+    final key = encrypt.Key.fromBase64(sharedSecret);
+    return new encrypt.Encrypter(encrypt.Salsa20(key));
+  }
+
+  static Future<String> encryptWithCRC(
+      String keyPrivate, String keyPublic, String input) async {
+    try {
+      encrypt.Encrypter cryptor = await getEncryptor(keyPrivate, keyPublic);
+      final iv = encrypt.IV.fromLength(Crypto.IV_LENGTH);
+      String encrypted = cryptor.encrypt(input, iv: iv).base64;
+      int crc = CRC32.compute(input);
+      String crcSep = Crypto.CRC_SEPARATOR;
+      return "$encrypted$crcSep$crc";
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static Future<String> decryptWithCRC(
+      String keyPrivate, String keyPublic, String input) async {
+    try {
+      if (input.contains(Crypto.CRC_SEPARATOR)) {
+        int idx = input.lastIndexOf(Crypto.CRC_SEPARATOR);
+        String msgPart = input.substring(0, idx);
+        String crcPart = input.substring(idx + 1);
+        int? crc = int.tryParse(crcPart);
+        if (crc != null) {
+          print(
+              "######### decryptWithCRC(): msgPart=$msgPart crcPart=$crcPart");
+          encrypt.Encrypter cryptor = await getEncryptor(keyPrivate, keyPublic);
+          final iv = encrypt.IV.fromLength(Crypto.IV_LENGTH);
+          msgPart =
+              cryptor.decrypt(encrypt.Encrypted.fromBase64(msgPart), iv: iv);
+          int crcComp = CRC32.compute(msgPart);
+          print("######### decryptWithCRC(): msgPartDec=$msgPart");
+          print("######### decryptWithCRC(): crcComp=$crcComp");
+          if (crcComp == crc) return msgPart;
+        }
+      }
+    } on FormatException {
+      return '';
+    }
+    return '';
+  }
+
+  static String formatTimestamp(double timestamp) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp.toInt());
+    return DateFormat('dd/MM HH:mm').format(dateTime);
   }
 }

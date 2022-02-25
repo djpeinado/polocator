@@ -19,7 +19,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 //import '../../debug/google_sign_in.dart';
 
-import '../../impl/firebase/core.dart';
 import '../../interfaces.dart';
 import '../../model/data.dart' as data;
 
@@ -51,9 +50,6 @@ class FirebaseAuthentication implements IAuth {
     // print(googleSignInAuthentication.accessToken);
     // print(googleSignInAuthentication.idToken);
     // print((await googleSignInAccount.authHeaders).toString());
-
-    FirebaseCore.instance.init();
-
     final UserCredential userCrendential =
         await _auth.signInWithCredential(credential);
     final User user = userCrendential.user!;

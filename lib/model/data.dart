@@ -14,6 +14,7 @@
 ///
 /// You should have received a copy of the GNU General Public License
 /// along with polocator.  If not, see <http://www.gnu.org/licenses/>.
+import 'package:location/location.dart' as loc;
 
 class User {
   static const keyCollection = 'users';
@@ -26,6 +27,7 @@ class User {
   static const keyPushNotificationId = 'pushNotificationId';
   static const keyDeviceId = 'deviceId';
   static const keyKeySecure = 'keySecure';
+  static const keyEmailTarget = 'emailTarget';
 
   String? id;
   String? uid;
@@ -53,3 +55,8 @@ class Contacts {
 }
 
 enum ReturnStatus { OK, ERROR, NOTIF_NOT_GRANTED }
+
+class LocationResponse {
+  late String email;
+  late loc.LocationData location;
+}

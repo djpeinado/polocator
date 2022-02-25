@@ -26,7 +26,12 @@ class FirebaseCore {
 
   void init() async {
     if (!_isInitialized && !kIsWeb) {
-      await Firebase.initializeApp();
+      FirebaseApp app = await Firebase.initializeApp();
+      print("####### DEBUGGGGGGGGGGGGGGGGGGGGGGG FirebaseApp name ${app.name}");
+      print(
+          "####### DEBUGGGGGGGGGGGGGGGGGGGGGGG FirebaseApp options ${app.options}");
+      print(
+          "####### DEBUGGGGGGGGGGGGGGGGGGGGGGG FirebaseApp runtimeType ${app.runtimeType}");
     }
   }
 }

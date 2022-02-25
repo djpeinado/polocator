@@ -16,6 +16,8 @@
 /// along with polocator.  If not, see <http://www.gnu.org/licenses/>.
 import 'dart:collection';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'model/data.dart';
 
 abstract class IAuth {
@@ -37,10 +39,10 @@ abstract class IStorageCloud {
 }
 
 abstract class IStorageSecure {
-  Future<void>? init(List<int>? keySecure);
+  Future<void>? init(List<int> keySecure);
   Future<void> write(String key, String value);
   Future<String?>? get(String key);
-  List<int>? createSecureKey();
+  List<int> createSecureKey();
   Future<void> clear();
 }
 
@@ -54,11 +56,14 @@ abstract class IStorageLocal {
 abstract class IPushNotifications {
   Future<String?> getId();
   void setRefreshIdHandler(Function(String) f);
-  void setMessageHandler(Function f);
+  void setMessageHandler(Future<void> Function(RemoteMessage) f);
 }
 
 abstract class IAppService {
   Future<Contacts?> getContacts();
+  Future<bool> requestLocation(
+      String emailTarget, String email, String encryptionKeyPublic);
+  Future<bool> sendLocation(String email, String keyPublic, String keyPrivate);
 }
 
 abstract class IDevice {

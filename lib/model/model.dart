@@ -57,10 +57,11 @@ class Model {
     } on NotificationsNotGrantedException catch (e) {
       return ReturnStatus.NOTIF_NOT_GRANTED;
     }
-
     if (user.pushNotificationsId == null) {
       return ReturnStatus.ERROR;
     }
+    print(
+        "DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG - user.pushNotificationsId ${user.pushNotificationsId}");
     // Set device id
     user.deviceId = await getDeviceId();
     var returnStatus = await Storage.instance.storeUser(user)
@@ -70,6 +71,8 @@ class Model {
   }
 
   static void updateUserPushNotificationsId(String value) {
+    print(
+        "DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG updateUserPushNotificationsId - $value");
     Storage.instance.updateUserPushNotificationsId(value);
   }
 
@@ -162,5 +165,16 @@ class Model {
 
   static bool isTherePreviousUser() {
     return Storage.instance.getEncryptionKeyPublic() != null;
+  }
+
+  static Future<String?> getEmail() async {
+    String? userId = implAuth.getCurrentUserId();
+    return userId != null
+        ? await implStorageCloud.getUserValue(userId, User.keyEmail)
+        : null;
+  }
+
+  static String? getKeyPublic() {
+    return Storage.instance.getEncryptionKeyPublic();
   }
 }
